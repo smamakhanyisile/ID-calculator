@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ID Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: wheat; /* You can change the color code to any color you prefer */
+        }
+
+        #container {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <h1>ID Calculator</h1>
+        <label for="idNumber">Enter your ID Number:</label><br>
+        <input type="text" id="idNumber"><br><br>
+        <button onclick="calculateAge()">Submit</button><br><br>
+        <p id="result"></p>
+    </div>
+
+    <script>
+        function calculateAge() {
+            var idNumber = document.getElementById('idNumber').value;
+            if (idNumber.length !== 13 || isNaN(idNumber)) {
+                document.getElementById('result').innerHTML = "Please enter a valid South African ID number.";
+                return;
+            }
+
+            var year = parseInt(idNumber.substring(0, 2));
+            var currentYear = new Date().getFullYear();
+            var prefix = (year >= currentYear % 100) ? "19" : "20";
+            var birthYear = parseInt(prefix + idNumber.substring(0, 2));
+            var birthMonth = parseInt(idNumber.substring(2, 4));
+            var birthDay = parseInt(idNumber.substring(4, 6));
+
+            var today = new Date();
+            var age = today.getFullYear() - birthYear;
+            var monthDiff = today.getMonth() + 1 - birthMonth;
+            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDay)) {
+                age--;
+            }
+
+            document.getElementById('result').innerHTML = "Your age is: " + age;
+        }
+    </script>
+</body>
+</html>
